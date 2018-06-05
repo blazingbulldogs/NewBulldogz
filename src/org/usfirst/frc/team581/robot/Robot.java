@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team581.robot.commands.ExampleCommand;
-import org.usfirst.frc.team581.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team581.robot.subsystems.Drive;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,7 +23,7 @@ import org.usfirst.frc.team581.robot.subsystems.ExampleSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
+	public static Drive m_drive = new Drive();
 	public static DriverControls m_driver_controls;
 
 	Command m_autonomousCommand;
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		m_drive.stop();
 	}
 
 	@Override
