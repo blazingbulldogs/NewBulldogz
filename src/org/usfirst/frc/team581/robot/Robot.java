@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team581.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -25,6 +26,7 @@ import org.usfirst.frc.team581.robot.subsystems.Drive;
 public class Robot extends TimedRobot {
 	public static Drive m_drive = new Drive();
 	public static DriverControls m_driver_controls;
+	public static Field m_field;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -69,6 +71,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		m_field = new Field(DriverStation.getInstance().getGameSpecificMessage());
+
 		m_autonomousCommand = m_chooser.getSelected();
 
 		/*
