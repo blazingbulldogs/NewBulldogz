@@ -7,6 +7,10 @@
 
 package org.usfirst.frc.team581.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -39,4 +43,30 @@ public class DriverControls {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
+
+	private Joystick gamepad = new Joystick(0);
+
+	public double getGamepadLeftX() {
+		return snapToZero(gamepad.getX());
+	}
+
+	public double getGamepadLeftY() {
+		return snapToZero(-gamepad.getY());
+	}
+
+	public double getGamepadRightX() {
+		return snapToZero(gamepad.getZ());
+	}
+
+	public double getGamepadRightY() {
+		return snapToZero(-gamepad.getThrottle());
+	}
+
+	private double snapToZero(double rawInput) {
+		if (Math.abs(rawInput) < 0.01) {
+			return 0.0;
+		} else {
+			return rawInput;
+		}
+	}
 }

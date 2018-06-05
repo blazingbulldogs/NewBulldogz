@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team581.robot.commands.ExampleCommand;
+
+import org.usfirst.frc.team581.robot.commands.DriveForward;
 import org.usfirst.frc.team581.robot.subsystems.Drive;
 
 /**
@@ -24,9 +25,9 @@ import org.usfirst.frc.team581.robot.subsystems.Drive;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static Drive m_drive = new Drive();
-	public static DriverControls m_driver_controls;
-	public static Field m_field;
+	public static Drive drive = new Drive();
+	public static DriverControls driver_controls;
+	public static Field field;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -37,8 +38,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		m_driver_controls = new DriverControls();
-		m_chooser.addDefault("Default Auto", new ExampleCommand());
+		driver_controls = new DriverControls();
+		m_chooser.addDefault("Default Auto", new DriveForward());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 	}
@@ -50,7 +51,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		m_drive.stop();
+		drive.stop();
 	}
 
 	@Override
@@ -71,18 +72,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_field = new Field(DriverStation.getInstance().getGameSpecificMessage());
+		field = new Field(DriverStation.getInstance().getGameSpecificMessage());
 
 		m_autonomousCommand = m_chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}

@@ -92,6 +92,10 @@ public class Drive extends Subsystem {
 		pidDistance.setSetpoint(inches);
 	}
 	
+	public boolean onTarget() {
+		return pidRotation.onTarget() && pidDistance.onTarget();
+	}
+
 	/*
 	 * Why is there a private class inside a class?
 	 * 
