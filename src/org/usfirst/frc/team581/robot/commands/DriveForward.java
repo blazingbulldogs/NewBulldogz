@@ -29,6 +29,12 @@ public class DriveForward extends Command {
 		Robot.drive.driveForwardDistance(12 * 4);
 	}
 
+	// Called repeatedly when this Command is scheduled to run
+	@Override
+	protected void execute() {
+		Robot.drive.driveWithPID();
+	}
+
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
