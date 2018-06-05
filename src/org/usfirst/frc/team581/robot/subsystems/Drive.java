@@ -1,12 +1,13 @@
 package org.usfirst.frc.team581.robot.subsystems;
 
 import org.usfirst.frc.team581.robot.Ports;
-import org.usfirst.frc.team581.robot.utilities.PositionAveragePIDSource;
-import org.usfirst.frc.team581.robot.utilities.PositionDifferencePIDSource;
+import org.usfirst.frc.team581.robot.utilities.VirtualEncoder;
+import org.usfirst.frc.team581.robot.utilities.VirtualEncoderOperation;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -18,20 +19,20 @@ public class Drive extends Subsystem {
 	 */
 	
 	// Spark is a type of motor controller
-	final private Spark m_left = new Spark(Ports.leftMotor);
-	final private Spark m_right = new Spark(Ports.rightMotor);
+	final private Spark motorLeft = new Spark(Ports.leftMotor);
+	final private Spark motorRight = new Spark(Ports.rightMotor);
 
 	// DifferentialDrive controls motors based on inputs
-	final private DifferentialDrive diffDrive = new DifferentialDrive(m_left, m_right);
+	final private DifferentialDrive diffDrive = new DifferentialDrive(motorLeft, motorRight);
 
 	// Encoders are hardware that measure how far or how fast each side of the
 	// drive train has moved.
-	final private Encoder encR = new Encoder(
+	final private Encoder encoderRight = new Encoder(
 			Ports.rightEncoderChannelA,
 			Ports.rightEncoderChannelB,
 			Ports.rightEncoderReverse,
 			Encoder.EncodingType.k4X);
-	final private Encoder encL = new Encoder(
+	final private Encoder encoderLeft = new Encoder(
 			Ports.leftEncoderChannelA,
 			Ports.leftEncoderChannelB,
 			Ports.leftEncoderReverse,
@@ -39,22 +40,24 @@ public class Drive extends Subsystem {
 	final private double INCHES_PER_PULSE = 1/18.9; // Measured by experiment
 
 	// A PIDSource is anything that can provide data to a PID. Usually it's an encoder,
-	// but we have custom logic to wrap both encoders in different ways (average, difference).
-	final private PositionDifferencePIDSource rotatationTurned =
-			new PositionDifferencePIDSource(encL, encR); // may need to switch order
-	final private PositionAveragePIDSource distanceMoved =
-			new PositionAveragePIDSource(encL, encR);
+	// but we have custom logic to wrap both encoders. These will be configured more in the constructor.
+	// We have three so we can swap between distance in auto and velocity in teleop.
+	final private VirtualEncoder virtualEncoderRotation =
+			new VirtualEncoder(encoderLeft, encoderRight); 
+	final private VirtualEncoder virtualEncoderDistance =
+			new VirtualEncoder(encoderLeft, encoderRight);
+	final private VirtualEncoder virtualEncoderVelocity =
+			new VirtualEncoder(encoderLeft, encoderRight);
 
 	final private double kP = 0.005; // These constants are tuned by experiment
 	final private double kD = 0.001; // We may need to use different constants for each PID
 	final private double kI = 0.0;
 	final private double TOLERANCE = 2.0; // inches
 	// A PIDController runs the PID loop. "Controller" here has nothing to do with joysticks.
-	// "angle" refers to how far the robot has gone to one side.
 	final private PIDController pidRotation =
-			new PIDController(kP, kI, kD, rotatationTurned, new AngleWriter());
+			new PIDController(kP, kI, kD, virtualEncoderRotation, new AngleWriter());
 	final private PIDController pidDistance =
-			new PIDController(kP, kI, kD, distanceMoved, new DistanceWriter());
+			new PIDController(kP, kI, kD, virtualEncoderDistance, new DistanceWriter());
 
 	// These variables store the output of the PIDController. They are updated at different
 	// times but we need both to drive the robot.
@@ -62,11 +65,18 @@ public class Drive extends Subsystem {
 	private double distance = 0.0;
 
 	public Drive() {
-	    m_left.setInverted(Ports.leftMotorInverted);
-		m_right.setInverted(Ports.rightMotorInverted);
+	    motorLeft.setInverted(Ports.leftMotorInverted);
+		motorRight.setInverted(Ports.rightMotorInverted);
 		
-		encL.setDistancePerPulse(INCHES_PER_PULSE);
-		encR.setDistancePerPulse(INCHES_PER_PULSE);
+		encoderLeft.setDistancePerPulse(INCHES_PER_PULSE);
+		encoderRight.setDistancePerPulse(INCHES_PER_PULSE);
+		
+		virtualEncoderRotation.setOperation(VirtualEncoderOperation.DIFFERENCE);
+		virtualEncoderRotation.setPIDSourceType(PIDSourceType.kDisplacement);
+		virtualEncoderDistance.setOperation(VirtualEncoderOperation.AVERAGE);
+		virtualEncoderDistance.setPIDSourceType(PIDSourceType.kDisplacement);
+		virtualEncoderVelocity.setOperation(VirtualEncoderOperation.AVERAGE);
+		virtualEncoderVelocity.setPIDSourceType(PIDSourceType.kRate);
 
     	pidRotation.setAbsoluteTolerance(TOLERANCE);
     	pidDistance.setAbsoluteTolerance(TOLERANCE);
@@ -75,8 +85,8 @@ public class Drive extends Subsystem {
 	}
 	
 	public void stop(){
-		encR.reset();
-		encL.reset();
+		encoderRight.reset();
+		encoderLeft.reset();
 		pidRotation.disable();
 		pidDistance.disable();
 		this.rotation = 0.0;
