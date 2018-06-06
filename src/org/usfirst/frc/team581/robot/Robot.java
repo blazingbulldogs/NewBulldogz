@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team581.robot.commands.DriveForward;
+import org.usfirst.frc.team581.robot.commands.DriveWithGamepad;
 import org.usfirst.frc.team581.robot.subsystems.Drive;
 
 /**
@@ -30,6 +31,7 @@ public class Robot extends TimedRobot {
 	public static Field field;
 
 	Command m_autonomousCommand;
+	Command m_teleopCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
 	/**
@@ -51,6 +53,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		if (m_autonomousCommand != null) {
+			m_autonomousCommand.cancel();
+		}
+		if (m_teleopCommand != null) {
+			m_teleopCommand.cancel();
+		}
 		drive.stop();
 	}
 
@@ -73,6 +81,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		field = new Field(DriverStation.getInstance().getGameSpecificMessage());
+
+		// When practicing, it's possible to go from teleop to autonomous
+		if (m_teleopCommand != null) {
+			m_teleopCommand.cancel();
+		}
 
 		m_autonomousCommand = m_chooser.getSelected();
 		if (m_autonomousCommand != null) {
@@ -97,6 +110,9 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+
+		m_teleopCommand = new DriveWithGamepad();
+		m_teleopCommand.start();
 	}
 
 	/**
