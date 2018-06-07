@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team581.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,8 +27,11 @@ import org.usfirst.frc.team581.robot.subsystems.Drive;
  * project.
  */
 public class Robot extends TimedRobot {
+	// Do initialization in robotInit, since we don't override the constructor
 	public static Drive drive = new Drive();
 	public static DriverControls driver_controls;
+	// The Compressor is not a subsystem, just the wpilib class. It's not very complex.
+	public static Compressor compressor;
 	public static Field field;
 
 	Command m_autonomousCommand;
@@ -40,7 +44,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		drive = new Drive();
 		driver_controls = new DriverControls();
+		compressor = new Compressor(Ports.compressor);
+
 		m_chooser.addDefault("Default Auto", new DriveForward());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
