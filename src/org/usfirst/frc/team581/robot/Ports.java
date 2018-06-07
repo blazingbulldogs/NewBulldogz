@@ -31,7 +31,11 @@ public class Ports {
 	
 	final public static int grabLeftMotor = 3;
 	final public static int grabRightMotor = 4;
+	final public static boolean grabLeftMotorInverted = false;
+	final public static boolean grabRightMotorInverted = true;
 	
 	final public static int solenoid1 = 0;
 	final public static int solenoid2 = 1;
+
+	final public static int compressor = 0;
 }
