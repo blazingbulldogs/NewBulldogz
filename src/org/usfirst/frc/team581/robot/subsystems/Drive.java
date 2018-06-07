@@ -7,7 +7,6 @@ import org.usfirst.frc.team581.robot.utilities.VirtualMotor;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -15,9 +14,19 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Drive extends Subsystem {
 	/*
-	 * final means that the variable cannot be reassigned: it's a constant. private
-	 * means that other classes can't depend on the inner workings of this one, and
-	 * instead have to use the methods it defines.
+	 * Drive subsystem - controls the wheels to move the robot
+	 *
+	 * Overview of how we drive straight: we have access to a PID, which is a system
+	 * that drives an input to a target value using an output. The input is taken
+	 * from the encoders and can be either displacement or velocity; the output is
+	 * fed to the motors. But instead of running left and right in two separate
+	 * PIDs, we target a rotation and a displacement (auto) or velocity (teleop). To
+	 * do this we use virtual encoders as PID inputs and virtual motors and PID
+	 * outputs. Keep reading and this will make more sense.
+	 *
+	 * Java note: final means that the variable cannot be reassigned: it's a
+	 * constant. private means that other classes can't depend on the inner workings
+	 * of this one, and instead have to use the methods it defines.
 	 */
 
 	// Encoders are hardware that measure how far or how fast each side of the
@@ -41,7 +50,7 @@ public class Drive extends Subsystem {
 	final private VirtualMotor virtualMotorRotation = new VirtualMotor();
 	final private VirtualMotor virtualMotorDistance = new VirtualMotor();
 
-	// A PIDController runs the PID loop. "Controller" here has nothing to do with
+	// A PIDController runs the PID. "Controller" here has nothing to do with
 	// joysticks or any other hardware.
 	final private PIDController pidRotation =
 			// the P, I, and D constants are determined by experiment.
@@ -74,7 +83,7 @@ public class Drive extends Subsystem {
 		virtualEncoderVelocity.setPIDSourceType(PIDSourceType.kRate);
 
 		pidRotation.setAbsoluteTolerance(2.0); // inches of left/right difference
-		pidDistance.setAbsoluteTolerance(2.0); // inches
+		pidDistance.setAbsoluteTolerance(2.0); // inches forward
 		pidVelocity.setAbsoluteTolerance(0.5); // inches per second
 
 		stop();
@@ -100,6 +109,7 @@ public class Drive extends Subsystem {
 		pidRotation.setSetpoint(0.0); // drive straight
 		pidDistance.setSetpoint(inches);
 	}
+
 	// After calling setDistanceMode, call this method until the target is reached.
 	public void driveForwardToDistance() {
 		diffDrive.arcadeDrive(virtualMotorDistance.getValue(), virtualMotorRotation.getValue());
@@ -114,6 +124,7 @@ public class Drive extends Subsystem {
 		pidRotation.setSetpoint(0.0);
 		pidVelocity.setSetpoint(0.0);
 	}
+
 	// After calling setVelocityMode, call this method with operator input
 	public void driveAtVelocity(double forward, double right) {
 		diffDrive.arcadeDrive(forward, right);
