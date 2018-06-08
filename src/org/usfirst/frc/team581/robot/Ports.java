@@ -38,4 +38,13 @@ public class Ports {
 	final public static int solenoid2 = 1;
 
 	final public static int compressor = 0;
+
+	// TODO: The default ID is 0. It is recommended to not use 0 in case you add more talons.
+	final public static int talon1 = 0;
+	final public static int talon2 = 1;
+	final public static boolean talon1Inverted = false;
+	final public static boolean talon2Inverted = true;
+	final public static boolean talonSensorPhase = false;
+
+
 }
