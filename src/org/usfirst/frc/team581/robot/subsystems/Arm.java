@@ -1,5 +1,6 @@
 package org.usfirst.frc.team581.robot.subsystems;
 
+import org.usfirst.frc.team581.robot.Dashboard;
 import org.usfirst.frc.team581.robot.Ports;
 import org.usfirst.frc.team581.robot.Robot;
 //import org.usfirst.frc.team581.robot.commands.ArmAngle;
@@ -10,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm extends Subsystem {
 	private TalonSRX talonLeader = new TalonSRX(Ports.talon1);
@@ -68,23 +68,26 @@ public class Arm extends Subsystem {
 	}
 
 	public void driveArm() {
-		talonLeader.set(ControlMode.PercentOutput, Robot.driver_controls.getGamepadRightY());
-		int pulseWidthPos = talonLeader.getSelectedSensorPosition(pidLoopIdx);
-		SmartDashboard.putString("DB/String 3", "" + pulseWidthPos);
+		double control = Robot.driver_controls.getGamepadRightY();
+		if (Math.abs(control) < 0.98) {
+			control /= 4.0; // limit speed unless at full throttle
+		}
+		talonLeader.set(ControlMode.PercentOutput, control);
+		this.log("@ " + Math.round(control * 100) + "%");
 	}
 
 	public void setAngle(int angle) {
-		SmartDashboard.putString("DB/String 2", "" + angle);
 		talonLeader.set(ControlMode.Position, angle);
+		this.log("-> " + angle);
+	}
+
+	private void log(String logInfo) {
+		Dashboard.log(Ports.logArm, "arm: " + pulseWithPosition() + " " + logInfo);
 	}
 
 	private int pulseWithPosition() {
 		// & 0xFFF means only use the bits that are relevant
 		return talonLeader.getSensorCollection().getPulseWidthPosition() & 0xFFF;
-	}
-
-	public void armDashboard() {
-		SmartDashboard.putString("DB/String 1", "" + pulseWithPosition());
 	}
 
 	@Override

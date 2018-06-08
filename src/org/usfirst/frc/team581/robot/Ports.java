@@ -46,5 +46,8 @@ public class Ports {
 	final public static boolean talon2Inverted = true;
 	final public static boolean talonSensorPhase = false;
 
+	// I want to assign each subsystem its own slot(s) to log into.
+	// Expand this as we need more logging.
+	final public static int logArm = 0;
 
 }
