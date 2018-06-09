@@ -15,6 +15,9 @@ import org.usfirst.frc.team581.robot.Robot;
  */
 public class DriveForward extends Command {
 	public DriveForward() {
+		// Call the superclass constructor to do any work it needs to do for us.
+		super();
+
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.drive);
 

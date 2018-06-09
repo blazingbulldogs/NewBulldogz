@@ -44,22 +44,41 @@ public class DriverControls {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 
-	private Joystick gamepad = new Joystick(0);
+	private Joystick gamepad1 = new Joystick(Ports.gamepad1);
+	private Joystick gamepad2 = new Joystick(Ports.gamepad2);
 
-	public double getGamepadLeftX() {
-		return snapToZero(gamepad.getX());
+	// We have two gamepads, each with two sticks, each with two axes.
+
+	public double getDrivepadLeftX() {
+		return snapToZero(gamepad1.getX());
 	}
 
-	public double getGamepadLeftY() {
-		return snapToZero(-gamepad.getY());
+	public double getDrivepadLeftY() {
+		return snapToZero(-gamepad1.getY());
 	}
 
-	public double getGamepadRightX() {
-		return snapToZero(gamepad.getZ());
+	public double getDrivepadRightX() {
+		return snapToZero(gamepad1.getZ());
 	}
 
-	public double getGamepadRightY() {
-		return snapToZero(-gamepad.getThrottle());
+	public double getDrivepadRightY() {
+		return snapToZero(-gamepad1.getThrottle());
+	}
+
+	public double getControlpadLeftX() {
+		return snapToZero(gamepad2.getX());
+	}
+
+	public double getControlpadLeftY() {
+		return snapToZero(-gamepad2.getY());
+	}
+
+	public double getControlpadRightX() {
+		return snapToZero(gamepad2.getZ());
+	}
+
+	public double getControlpadRightY() {
+		return snapToZero(-gamepad2.getThrottle());
 	}
 
 	private double snapToZero(double rawInput) {

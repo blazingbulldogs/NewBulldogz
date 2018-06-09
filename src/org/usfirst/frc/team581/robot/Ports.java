@@ -16,6 +16,9 @@ public class Ports {
 	 * static means that the value can be read from the class, like Ports.leftMotor,
 	 * without instantiating it by calling "new Ports()".
 	 */
+	final public static int gamepad1 = 0;
+	final public static int gamepad2 = 1;
+
 	final public static int leftMotor = 1;
 	final public static int rightMotor = 0;
 	final public static boolean leftMotorInverted = false;

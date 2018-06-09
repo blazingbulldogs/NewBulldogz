@@ -69,6 +69,8 @@ public class Drive extends Subsystem {
 	final private DifferentialDrive diffDrive = new DifferentialDrive(motorLeft, motorRight);
 
 	public Drive() {
+		super();
+
 		motorLeft.setInverted(Ports.leftMotorInverted);
 		motorRight.setInverted(Ports.rightMotorInverted);
 

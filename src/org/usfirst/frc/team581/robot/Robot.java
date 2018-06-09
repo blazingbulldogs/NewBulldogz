@@ -17,7 +17,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team581.robot.commands.DriveForward;
 import org.usfirst.frc.team581.robot.commands.DriveWithGamepad;
+import org.usfirst.frc.team581.robot.subsystems.Arm;
 import org.usfirst.frc.team581.robot.subsystems.Drive;
+import org.usfirst.frc.team581.robot.subsystems.Grabber;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,10 +31,12 @@ import org.usfirst.frc.team581.robot.subsystems.Drive;
 public class Robot extends TimedRobot {
 	// Do initialization in robotInit, since we don't override the constructor
 	public static Drive drive = new Drive();
-	public static DriverControls driver_controls;
+	public static DriverControls driverControls;
 	// The Compressor is not a subsystem, just the wpilib class. It's not very complex.
 	public static Compressor compressor;
 	public static Field field;
+	public static Arm arm;
+	public static Grabber grabber;
 
 	Command m_autonomousCommand;
 	Command m_teleopCommand;
@@ -45,8 +49,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		drive = new Drive();
-		driver_controls = new DriverControls();
+		driverControls = new DriverControls();
 		compressor = new Compressor(Ports.compressor);
+		compressor.start();
+		arm = new Arm();
+		grabber = new Grabber();
 
 		m_chooser.addDefault("Default Auto", new DriveForward());
 		// chooser.addObject("My Auto", new MyAutoCommand());

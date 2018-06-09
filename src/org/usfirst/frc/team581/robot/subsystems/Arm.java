@@ -2,9 +2,7 @@ package org.usfirst.frc.team581.robot.subsystems;
 
 import org.usfirst.frc.team581.robot.Dashboard;
 import org.usfirst.frc.team581.robot.Ports;
-import org.usfirst.frc.team581.robot.Robot;
-//import org.usfirst.frc.team581.robot.commands.ArmAngle;
-//import org.usfirst.frc.team581.robot.commands.ArmDrive;
+import org.usfirst.frc.team581.robot.commands.ArmManual;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -28,6 +26,8 @@ public class Arm extends Subsystem {
 	private static final int kTimeoutMs = 10;
 
 	public Arm() {
+		super();
+
 		talonLeader.setInverted(Ports.talon1Inverted);
 		talonFollower.setInverted(Ports.talon2Inverted);
 
@@ -65,10 +65,12 @@ public class Arm extends Subsystem {
 		talonLeader.configClosedloopRamp(0.25, kTimeoutMs);
 
 		talonFollower.follow(talonLeader);
+
+		// Log the initial encoder position
+		log("");
 	}
 
-	public void driveArm() {
-		double control = Robot.driver_controls.getGamepadRightY();
+	public void driveArm(double control) {
 		if (Math.abs(control) < 0.98) {
 			control /= 4.0; // limit speed unless at full throttle
 		}
@@ -92,6 +94,7 @@ public class Arm extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
+		setDefaultCommand(new ArmManual());
 	}
 
 }

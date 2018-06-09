@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveWithGamepad extends Command {
 
 	public DriveWithGamepad() {
+		super();
 		requires(Robot.drive);
 	}
 
@@ -18,7 +19,7 @@ public class DriveWithGamepad extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.drive.driveAtVelocity(Robot.driver_controls.getGamepadRightY(), Robot.driver_controls.getGamepadLeftX());
+		Robot.drive.driveAtVelocity(Robot.driverControls.getDrivepadRightY(), Robot.driverControls.getDrivepadLeftX());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

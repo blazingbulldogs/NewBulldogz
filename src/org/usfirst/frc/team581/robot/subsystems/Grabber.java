@@ -3,6 +3,7 @@ package org.usfirst.frc.team581.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc.team581.robot.Ports;
+import org.usfirst.frc.team581.robot.commands.GrabberManual;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
@@ -20,14 +21,13 @@ public class Grabber extends Subsystem {
 	private SpeedControllerGroup grabberMotors = new SpeedControllerGroup(grabberLeftMotor, grabberRightMotor);
 
 	public Grabber() {
+		super();
 		grabberLeftMotor.setInverted(Ports.grabLeftMotorInverted);
 		grabberRightMotor.setInverted(Ports.grabRightMotorInverted);
 	}
 
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		// setDefaultCommand(new CompressorLoop());
-		// setDefaultCommand(new GrabEject());
+		setDefaultCommand(new GrabberManual());
 	}
 
 	public void setSolenoid1(boolean state) {
