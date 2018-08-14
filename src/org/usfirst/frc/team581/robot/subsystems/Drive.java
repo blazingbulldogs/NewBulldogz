@@ -17,7 +17,7 @@ public class Drive extends Subsystem {
 	 * Drive subsystem - controls the wheels to move the robot
 	 *
 	 * Overview of how we drive straight: we have access to a PID, which is a system
-	 * that drives an input to a target value using an output. The input is taken
+	 * that hones in an input on a target value using an output. The input is taken
 	 * from the encoders and can be either displacement or velocity; the output is
 	 * fed to the motors. But instead of running left and right in two separate
 	 * PIDs, we target a rotation and a displacement (auto) or velocity (teleop). To

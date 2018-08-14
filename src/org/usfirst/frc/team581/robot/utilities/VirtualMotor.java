@@ -15,7 +15,7 @@ public class VirtualMotor implements PIDOutput {
 		motorValue = output;
 	}
 	
-    public void reset() {
-    	motorValue = 0.0;
-    }
+	public void reset() {
+		motorValue = 0.0;
+	}
 }

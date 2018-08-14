@@ -10,7 +10,7 @@ public class Field {
 	
 	// The side of the field that the robot starts on.
 	// Currently this should be changed by hand before each match.
-	// Ideally this could be set in the driver's station on a hardware switch.
+	// Ideally this could be set in the driver's station or a hardware switch.
 	private final char startingSide = 'R';
 
 	public Field(String data) {
@@ -25,7 +25,7 @@ public class Field {
 		return data.charAt(0) == startingSide;
 	}
 	
-	public boolean ScalehOk() {
+	public boolean ScaleOk() {
 		return data.charAt(1) == startingSide;
 	}
 	
