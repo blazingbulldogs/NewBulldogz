@@ -30,7 +30,7 @@ import org.usfirst.frc.team581.robot.subsystems.Grabber;
  */
 public class Robot extends TimedRobot {
 	// Do initialization in robotInit, since we don't override the constructor
-	public static Drive drive = new Drive();
+	public static Drive drive;
 	public static DriverControls driverControls;
 	// The Compressor is not a subsystem, just the wpilib class. It's not very complex.
 	public static Compressor compressor;
