@@ -6,4 +6,10 @@ public class Dashboard {
 	public static void log(int key, Object logMe) {
 		SmartDashboard.putString("DB/String " + key, logMe.toString());
 	}
+
+	public static void clear(){
+		for(int i = 0; i < 8; i++){
+			log(i, "");
+		}
+	}
 }

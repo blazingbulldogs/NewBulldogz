@@ -22,7 +22,7 @@ public class Ports {
 	final public static int leftMotor = 1;
 	final public static int rightMotor = 0;
 	final public static boolean leftMotorInverted = false;
-	final public static boolean rightMotorInverted = true;
+	final public static boolean rightMotorInverted = false;
 	
 	final public static int rightEncoderChannelA = 2;
 	final public static int rightEncoderChannelB = 3;
@@ -51,6 +51,11 @@ public class Ports {
 
 	// I want to assign each subsystem its own slot(s) to log into.
 	// Expand this as we need more logging.
-	final public static int logArm = 0;
+	final public static int logArm = 4;
+	final public static int logEncLeft = 0;
+	final public static int logEncRight = 5;
+	final public static int logVirtualMotorLeft = 1;
+	final public static int logVirtualMotorRight = 6;
+
 
 }

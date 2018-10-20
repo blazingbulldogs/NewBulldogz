@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.Date;
+
 import org.usfirst.frc.team581.robot.commands.DriveForward;
 import org.usfirst.frc.team581.robot.commands.DriveWithGamepad;
 import org.usfirst.frc.team581.robot.subsystems.Arm;
@@ -55,9 +57,9 @@ public class Robot extends TimedRobot {
 		arm = new Arm();
 		grabber = new Grabber();
 
-		m_chooser.addDefault("Default Auto", new DriveForward());
+		// m_chooser.addDefault("Default Auto", new DriveForward(4));
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		// SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
 	/**
@@ -101,7 +103,7 @@ public class Robot extends TimedRobot {
 			m_teleopCommand.cancel();
 		}
 
-		m_autonomousCommand = m_chooser.getSelected();
+		m_autonomousCommand = new DriveForward(4);
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
@@ -137,10 +139,18 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 	}
 
+	@Override
+	public void testInit() {
+		Dashboard.clear();
+	}
+
 	/**
 	 * This function is called periodically during test mode.
 	 */
 	@Override
 	public void testPeriodic() {
+		drive.log();
+		Dashboard.log(7, new Date());
+
 	}
 }

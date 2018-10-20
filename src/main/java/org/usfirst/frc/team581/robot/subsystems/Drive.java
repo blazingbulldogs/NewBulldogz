@@ -1,5 +1,6 @@
 package org.usfirst.frc.team581.robot.subsystems;
 
+import org.usfirst.frc.team581.robot.Dashboard;
 import org.usfirst.frc.team581.robot.Ports;
 import org.usfirst.frc.team581.robot.utilities.VirtualEncoder;
 import org.usfirst.frc.team581.robot.utilities.VirtualEncoderOperation;
@@ -31,9 +32,9 @@ public class Drive extends Subsystem {
 
 	// Encoders are hardware that measure how far or how fast each side of the
 	// drive train has moved.
-	final private Encoder encoderRight = new Encoder(Ports.rightEncoderChannelA, Ports.rightEncoderChannelB,
+	final private static Encoder encoderRight = new Encoder(Ports.rightEncoderChannelA, Ports.rightEncoderChannelB,
 			Ports.rightEncoderReverse, Encoder.EncodingType.k4X);
-	final private Encoder encoderLeft = new Encoder(Ports.leftEncoderChannelA, Ports.leftEncoderChannelB,
+	final private static Encoder encoderLeft = new Encoder(Ports.leftEncoderChannelA, Ports.leftEncoderChannelB,
 			Ports.leftEncoderReverse, Encoder.EncodingType.k4X);
 	final private double INCHES_PER_PULSE = 1 / 18.9; // Measured by experiment
 
@@ -55,24 +56,25 @@ public class Drive extends Subsystem {
 	final private PIDController pidRotation =
 			// the P, I, and D constants are determined by experiment.
 			// Each loop may need different values.
-			new PIDController(0.005, 0.0, 0.001, virtualEncoderRotation, virtualMotorRotation);
-	final private PIDController pidDistance = new PIDController(0.005, 0.0, 0.001, virtualEncoderDistance,
+			new PIDController(0.05, 0.0, 0.001, virtualEncoderRotation, virtualMotorRotation);
+	final private PIDController pidDistance = new PIDController(0.5, 0.0, 0.001, virtualEncoderDistance,
 			virtualMotorDistance);
 	final private PIDController pidVelocity = new PIDController(0.005, 0.0, 0.001, virtualEncoderVelocity,
 			virtualMotorDistance);
 
 	// Spark is the brand of motor controller
-	final private Spark motorLeft = new Spark(Ports.leftMotor);
-	final private Spark motorRight = new Spark(Ports.rightMotor);
+	final private static Spark motorLeft = new Spark(Ports.leftMotor);
+	final private static Spark motorRight = new Spark(Ports.rightMotor);
 
 	// DifferentialDrive controls motors based on inputs
-	final private DifferentialDrive diffDrive = new DifferentialDrive(motorLeft, motorRight);
+	final private DifferentialDrive diffDrive;
 
 	public Drive() {
 		super();
 
 		motorLeft.setInverted(Ports.leftMotorInverted);
 		motorRight.setInverted(Ports.rightMotorInverted);
+		diffDrive = new DifferentialDrive(motorLeft, motorRight);
 
 		encoderLeft.setDistancePerPulse(INCHES_PER_PULSE);
 		encoderRight.setDistancePerPulse(INCHES_PER_PULSE);
@@ -101,6 +103,13 @@ public class Drive extends Subsystem {
 		virtualMotorDistance.reset();
 	}
 
+	public void log() {
+		Dashboard.log(Ports.logEncLeft, encoderLeft.get());
+		Dashboard.log(Ports.logEncRight, encoderRight.get());
+		Dashboard.log(Ports.logVirtualMotorLeft, virtualMotorDistance.getValue());
+		Dashboard.log(Ports.logVirtualMotorRight, virtualMotorRotation.getValue());
+	}
+
 	// Call this once to initialize the PIDs to drive straight
 	public void setDistanceMode(double inches) {
 		pidRotation.enable();
@@ -114,6 +123,7 @@ public class Drive extends Subsystem {
 
 	// After calling setDistanceMode, call this method until the target is reached.
 	public void driveForwardToDistance() {
+		log();
 		diffDrive.arcadeDrive(virtualMotorDistance.getValue(), virtualMotorRotation.getValue());
 	}
 
