@@ -56,6 +56,7 @@ public class Ports {
 	final public static int logEncRight = 5;
 	final public static int logVirtualMotorLeft = 1;
 	final public static int logVirtualMotorRight = 6;
+	final public static int logDriveCommand = 2;
 
 
 }

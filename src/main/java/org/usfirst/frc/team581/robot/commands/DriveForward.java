@@ -39,7 +39,6 @@ public class DriveForward extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		Dashboard.log(2, "STARTING");
 		Robot.drive.setDistanceMode(12 * m_feet);
 	}
 
@@ -60,7 +59,6 @@ public class DriveForward extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Dashboard.log(2, "DONE");
 		Robot.drive.stop();
 	}
 }

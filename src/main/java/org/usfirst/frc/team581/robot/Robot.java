@@ -114,6 +114,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		Dashboard.log(Ports.logDriveCommand, drive.getCurrentCommandName());
 	}
 
 	@Override
