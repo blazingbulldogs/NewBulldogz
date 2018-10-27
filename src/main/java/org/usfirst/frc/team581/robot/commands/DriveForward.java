@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import java.util.Random;
 
-import org.usfirst.frc.team581.robot.Dashboard;
+import org.usfirst.frc.team581.robot.Logger;
 import org.usfirst.frc.team581.robot.Robot;
 
 /**
@@ -45,7 +45,7 @@ public class DriveForward extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Dashboard.log(7, random.nextDouble());
+		Logger.log(7, random.nextDouble());
 		
 		Robot.drive.driveForwardToDistance();
 	}

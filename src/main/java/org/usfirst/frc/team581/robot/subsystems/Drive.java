@@ -1,6 +1,6 @@
 package org.usfirst.frc.team581.robot.subsystems;
 
-import org.usfirst.frc.team581.robot.Dashboard;
+import org.usfirst.frc.team581.robot.Logger;
 import org.usfirst.frc.team581.robot.Ports;
 import org.usfirst.frc.team581.robot.utilities.VirtualEncoder;
 import org.usfirst.frc.team581.robot.utilities.VirtualEncoderOperation;
@@ -104,10 +104,10 @@ public class Drive extends Subsystem {
 	}
 
 	public void log() {
-		Dashboard.log(Ports.logEncLeft, "encLeft: " + encoderLeft.get());
-		Dashboard.log(Ports.logEncRight, "encRight: " + encoderRight.get());
-		Dashboard.log(Ports.logVirtualMotorLeft, "vrtlMtrLeft: " + virtualMotorDistance.getValue());
-		Dashboard.log(Ports.logVirtualMotorRight, "vrtlMtrRight: " + virtualMotorRotation.getValue());
+		Logger.log(Ports.logEncLeft, "encLeft: " + encoderLeft.get());
+		Logger.log(Ports.logEncRight, "encRight: " + encoderRight.get());
+		Logger.log(Ports.logVirtualMotorLeft, "vrtlMtrLeft: " + virtualMotorDistance.getValue());
+		Logger.log(Ports.logVirtualMotorRight, "vrtlMtrRight: " + virtualMotorRotation.getValue());
 	}
 
 	// Call this once to initialize the PIDs to drive straight

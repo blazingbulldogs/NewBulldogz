@@ -1,6 +1,6 @@
 package org.usfirst.frc.team581.robot.subsystems;
 
-import org.usfirst.frc.team581.robot.Dashboard;
+import org.usfirst.frc.team581.robot.Logger;
 import org.usfirst.frc.team581.robot.Ports;
 import org.usfirst.frc.team581.robot.commands.ArmManual;
 
@@ -84,7 +84,7 @@ public class Arm extends Subsystem {
 	}
 
 	private void log(String logInfo) {
-		Dashboard.log(Ports.logArm, "arm: " + pulseWithPosition() + " " + logInfo);
+		Logger.log(Ports.logArm, "arm: " + pulseWithPosition() + " " + logInfo);
 	}
 
 	private int pulseWithPosition() {

@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		Dashboard.log(Ports.logDriveCommand, drive.getCurrentCommandName());
+		Logger.log(Ports.logDriveCommand, drive.getCurrentCommandName());
 	}
 
 	@Override
@@ -141,7 +141,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-		Dashboard.clear();
+		Logger.clear();
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 		drive.log();
-		Dashboard.log(7, new Date());
+		Logger.log(7, new Date());
 
 	}
 }
