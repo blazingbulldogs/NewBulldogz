@@ -106,8 +106,8 @@ public class Drive extends Subsystem {
 	public void log() {
 		Logger.log(Ports.logEncLeft, "encLeft: " + encoderLeft.get());
 		Logger.log(Ports.logEncRight, "encRight: " + encoderRight.get());
-		Logger.log(Ports.logVirtualMotorLeft, "vrtlMtrLeft: " + virtualMotorDistance.getValue());
-		Logger.log(Ports.logVirtualMotorRight, "vrtlMtrRight: " + virtualMotorRotation.getValue());
+		Logger.log(Ports.logVirtualMotorDistance, "vrtlMtrDist: " + virtualMotorDistance.getValue());
+		Logger.log(Ports.logVirtualMotorRotation, "vrtlMtrRot: " + virtualMotorRotation.getValue());
 	}
 
 	// Call this once to initialize the PIDs to drive straight

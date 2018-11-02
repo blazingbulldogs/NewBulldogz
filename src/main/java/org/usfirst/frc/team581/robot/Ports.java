@@ -54,8 +54,8 @@ public class Ports {
 	final public static int logArm = 4;
 	final public static int logEncLeft = 0;
 	final public static int logEncRight = 5;
-	final public static int logVirtualMotorLeft = 1;
-	final public static int logVirtualMotorRight = 6;
+	final public static int logVirtualMotorDistance = 1;
+	final public static int logVirtualMotorRotation = 6;
 	final public static int logDriveCommand = 2;
 
 
