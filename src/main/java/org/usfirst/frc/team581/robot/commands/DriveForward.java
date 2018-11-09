@@ -18,47 +18,47 @@ import org.usfirst.frc.team581.robot.Robot;
  * Drive forward four feet, assuming everything works correctly.
  */
 public class DriveForward extends Command {
-	double m_feet;
-	Random random;
+  double m_feet;
+  Random random;
 
-	public DriveForward(double feet) {
-		// Call the superclass constructor to do any work it needs to do for us.
-		super();
+  public DriveForward(double feet) {
+    // Call the superclass constructor to do any work it needs to do for us.
+    super();
 
-		random = new Random();
-		m_feet = feet;
+    random = new Random();
+    m_feet = feet;
 
-		// Use requires() here to declare subsystem dependencies
-		requires(Robot.drive);
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.drive);
 
-		// Because the robot will likely be uncontrolled when we first run this code,
-		// let it thrash for only two seconds.
-		// setTimeout(2);
-	}
+    // Because the robot will likely be uncontrolled when we first run this code,
+    // let it thrash for only two seconds.
+    // setTimeout(2);
+  }
 
-	// Called just before this Command runs the first time
-	@Override
-	protected void initialize() {
-		Robot.drive.setDistanceMode(12 * m_feet);
-	}
+  // Called just before this Command runs the first time
+  @Override
+  protected void initialize() {
+    Robot.drive.setDistanceMode(12 * m_feet);
+  }
 
-	// Called repeatedly when this Command is scheduled to run
-	@Override
-	protected void execute() {
-		Logger.log(7, random.nextDouble());
-		
-		Robot.drive.driveForwardToDistance();
-	}
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+    Logger.log(7, random.nextDouble());
+    
+    Robot.drive.driveForwardToDistance();
+  }
 
-	// Make this return true when this Command no longer needs to run execute()
-	@Override
-	protected boolean isFinished() {
-		return Robot.drive.onTarget();
-	}
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return Robot.drive.onTarget();
+  }
 
-	// Called once after isFinished returns true
-	@Override
-	protected void end() {
-		Robot.drive.stop();
-	}
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+    Robot.drive.stop();
+  }
 }

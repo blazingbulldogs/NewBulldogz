@@ -13,46 +13,46 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class VirtualEncoder implements PIDSource {
 
-	private PIDSource source1, source2;
-	private PIDSourceType sourceType;
-	private VirtualEncoderOperation operation;
+  private PIDSource source1, source2;
+  private PIDSourceType sourceType;
+  private VirtualEncoderOperation operation;
 
-	public VirtualEncoder(PIDSource source1, PIDSource source2) {
-		this.source1 = source1;
-		this.source2 = source2;
-	}
+  public VirtualEncoder(PIDSource source1, PIDSource source2) {
+    this.source1 = source1;
+    this.source2 = source2;
+  }
 
-	@Override
-	public double pidGet() {
-		// Overwrite the encoder source type.
-		source1.setPIDSourceType(sourceType);
-		source2.setPIDSourceType(sourceType);
-		
-		if (operation == VirtualEncoderOperation.AVERAGE) {
-			return (source1.pidGet() + source2.pidGet()) / 2.0;
-		} else if (operation == VirtualEncoderOperation.DIFFERENCE) {
-			return source1.pidGet() - source2.pidGet();
-		} else {
-			return 0.0;
-		}
-	}
+  @Override
+  public double pidGet() {
+    // Overwrite the encoder source type.
+    source1.setPIDSourceType(sourceType);
+    source2.setPIDSourceType(sourceType);
+    
+    if (operation == VirtualEncoderOperation.AVERAGE) {
+      return (source1.pidGet() + source2.pidGet()) / 2.0;
+    } else if (operation == VirtualEncoderOperation.DIFFERENCE) {
+      return source1.pidGet() - source2.pidGet();
+    } else {
+      return 0.0;
+    }
+  }
 
-	public VirtualEncoderOperation getOperation() {
-		return operation;
-	}
+  public VirtualEncoderOperation getOperation() {
+    return operation;
+  }
 
-	public void setOperation(VirtualEncoderOperation operation) {
-		this.operation = operation;
-	}
+  public void setOperation(VirtualEncoderOperation operation) {
+    this.operation = operation;
+  }
 
-	@Override
-	public PIDSourceType getPIDSourceType() {
-		return this.sourceType;
-	}
+  @Override
+  public PIDSourceType getPIDSourceType() {
+    return this.sourceType;
+  }
 
-	@Override
-	public void setPIDSourceType(PIDSourceType sourceType) {
-		this.sourceType = sourceType;
-	}
+  @Override
+  public void setPIDSourceType(PIDSourceType sourceType) {
+    this.sourceType = sourceType;
+  }
 
 }

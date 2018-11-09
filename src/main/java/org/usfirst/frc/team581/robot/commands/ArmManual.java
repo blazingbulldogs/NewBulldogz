@@ -6,19 +6,19 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ArmManual extends Command {
 
-	public ArmManual() {
-		super();
-		requires(Robot.arm);
-	}
+  public ArmManual() {
+    super();
+    requires(Robot.arm);
+  }
 
-	@Override
-	protected void execute() {
-		double control = Robot.driverControls.getControlpadLeftY();
-		Robot.arm.driveArm(control);
-	}
-	
-	@Override
-	protected boolean isFinished() {
-		return false;
-	}
+  @Override
+  protected void execute() {
+    double control = Robot.driverControls.getControlpadLeftY();
+    Robot.arm.driveArm(control);
+  }
+  
+  @Override
+  protected boolean isFinished() {
+    return false;
+  }
 }
