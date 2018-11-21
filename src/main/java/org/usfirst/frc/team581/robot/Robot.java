@@ -151,6 +151,5 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     drive.log();
     Logger.log(7, new Date());
-
   }
 }
