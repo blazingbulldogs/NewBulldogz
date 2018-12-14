@@ -39,9 +39,9 @@ public class Robot extends TimedRobot {
   public static Arm arm;
   public static Grabber grabber;
 
-  Command m_autonomousCommand;
-  Command m_teleopCommand;
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  Command mAutonomousCommand;
+  Command mTeleopCommand;
+  SendableChooser<Command> mChooser = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -68,11 +68,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    if (mAutonomousCommand != null) {
+      mAutonomousCommand.cancel();
     }
-    if (m_teleopCommand != null) {
-      m_teleopCommand.cancel();
+    if (mTeleopCommand != null) {
+      mTeleopCommand.cancel();
     }
     drive.stop();
   }
@@ -98,13 +98,13 @@ public class Robot extends TimedRobot {
     field = new Field(DriverStation.getInstance().getGameSpecificMessage());
 
     // When practicing, it's possible to go from teleop to autonomous
-    if (m_teleopCommand != null) {
-      m_teleopCommand.cancel();
+    if (mTeleopCommand != null) {
+      mTeleopCommand.cancel();
     }
 
-    m_autonomousCommand = new DriveForward(4);
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
+    mAutonomousCommand = new DriveForward(4);
+    if (mAutonomousCommand != null) {
+      mAutonomousCommand.start();
     }
   }
 
@@ -123,12 +123,12 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    if (mAutonomousCommand != null) {
+      mAutonomousCommand.cancel();
     }
 
-    m_teleopCommand = new DriveWithGamepad();
-    m_teleopCommand.start();
+    mTeleopCommand = new DriveWithGamepad();
+    mTeleopCommand.start();
   }
 
   /**
